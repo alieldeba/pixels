@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image } from "expo-image";
 import { Pressable } from "react-native";
 
 const ImageCard = ({ item, index }) => {
+  // const height = item.webformatWidth > item.webformatHeight ? 230 : 300;
+
   return (
     <Pressable
       className={`bg-gray-300 overflow-hidden mb-2 rounded ${
@@ -10,7 +12,8 @@ const ImageCard = ({ item, index }) => {
       }`}
     >
       <Image
-        className="w-full h-[300px]"
+        className="w-full object-contain"
+        style={{ height: 230 }}
         source={{ uri: item?.webformatURL }}
         transition={100}
       />

@@ -6,9 +6,17 @@ import { AntDesign } from "@expo/vector-icons";
 import Categories from "../../components/Categories";
 import { StatusBar } from "expo-status-bar";
 import ImagesGrid from "../../components/ImagesGrid";
+import { useSearches } from "../../store/useSearches";
 
 const Home = () => {
-  const [search, setSearch] = useState("");
+  const { search, updateSearch, updateCategory, enableRefetch } = useSearches();
+
+  // TODO: Make search debounce.
+  function changeSearch(text) {
+    updateSearch(text);
+    updateCategory("");
+    enableRefetch();
+  }
 
   return (
     <SafeAreaView className="w-full h-full px-6 pt-6">
@@ -25,11 +33,11 @@ const Home = () => {
           placeholder="Search for food items..."
           className="flex-1 pr-12"
           value={search}
-          onChangeText={(e) => setSearch(e)}
+          onChangeText={changeSearch}
         />
 
         {search && (
-          <Pressable className="pr-2" onPress={() => setSearch("")}>
+          <Pressable className="pr-2" onPress={() => changeSearch("")}>
             <AntDesign name="closecircle" size={24} color="black" />
           </Pressable>
         )}

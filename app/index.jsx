@@ -4,8 +4,20 @@ import { LinearGradient } from "expo-linear-gradient";
 import { hp, wp } from "../helpers/common";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { router } from "expo-router";
+import { useSearches } from "../store/useSearches";
 
 const WelcomeScreen = () => {
+  const { updateImages, updateSearch, updateCategory, enableRefetch } =
+    useSearches();
+
+  function start() {
+    updateImages([]);
+    updateSearch("");
+    updateCategory("");
+    enableRefetch();
+    router.push("/home");
+  }
+
   return (
     <View style={styles.container}>
       <Image
@@ -39,10 +51,7 @@ const WelcomeScreen = () => {
             Every pixel tells a story
           </Animated.Text>
           <Animated.View entering={FadeInDown.delay(600).springify()}>
-            <Pressable
-              style={styles.startButton}
-              onPress={() => router.push("/home")}
-            >
+            <Pressable style={styles.startButton} onPress={() => start()}>
               <Text style={styles.startText}>Start Exploring</Text>
             </Pressable>
           </Animated.View>
@@ -88,7 +97,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 90,
     backgroundColor: "black",
-    borderRadius: 50,
+    borderRadius: 20,
     borderCurve: "continuous",
   },
   startText: {
